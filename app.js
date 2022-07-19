@@ -36,13 +36,18 @@ app.use("/sessions", sessionsRoute);
 
 // Routes
 // req.isAuthenticated is provided from the auth router
-app.get('/', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-});
+app
+  .get("/", (req, res) => {
+    res.send(req.oidc.isAuthenticated() ? "Logged in" : "Logged out");
+  })
+  .get("/callback", (req, res) => {
+    res.send("Test");
+  });
+
 // .get() shoots back a message
-app.get("/", (req, res) => {
-  res.send("We are live on heroku!");
-});
+//app.get("/", (req, res) => {
+//  res.send("We are live on heroku!");
+//});
 
 // Connect to DB (mongodb)
 mongoose.connect(process.env.DB_CONNECTION, () => {
