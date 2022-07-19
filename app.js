@@ -36,13 +36,8 @@ app.use("/sessions", sessionsRoute);
 
 // Routes
 // req.isAuthenticated is provided from the auth router
-app.get("/testroute", (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? "Logged in" : "Logged out");
-});
-
-// .get() shoots back a message
 app.get("/", (req, res) => {
-  res.send("We are live on heroku!");
+  res.send(req.oidc.isAuthenticated() ? "Logged in" : "Logged out");
 });
 
 // Connect to DB (mongodb)
