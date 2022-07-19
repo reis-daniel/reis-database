@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
 // Get specific session
 router.get("/:sessionId", async (req, res) => {
   try {
-    const session = await User.findById(req.params.sessionId);
+    const session = await Session.findById(req.params.sessionId);
     res.json(session);
   } catch (error) {
     res.json({ message: error });
