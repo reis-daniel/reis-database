@@ -15,9 +15,11 @@ app.use(bodyParser.json());
 
 // Import Routes
 const usersRoute = require("./routes/users");
+const sessionsRoute = require("./routes/sessions");
 
 // Middlewares
 app.use("/users", usersRoute);
+app.use("/sessions", sessionsRoute);
 
 // Routes
 // .get() shoots back a message
