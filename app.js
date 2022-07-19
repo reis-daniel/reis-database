@@ -20,9 +20,6 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-app.get("/authLogout", (req, res) => {
-  res.send("Logged Out!");
-});
 
 app.use(auth(config));
 
