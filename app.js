@@ -21,22 +21,29 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(auth(config));
+//app.use(auth(config));
 
 const usersRoute = require("./routes/users");
 const sessionsRoute = require("./routes/sessions");
 app.use("/users", usersRoute);
 app.use("/sessions", sessionsRoute);
 
+app.get("/", (req, res) => {
+  res.send("We are live.");
+});
+
 // req.isAuthenticated is provided from the auth router
+/*
 app.get("/", (req, res) => {
   console.log(req.oidc.isAuthenticated());
   res.send(req.oidc.isAuthenticated() ? "Logged in" : "Logged out");
 });
 
+
 app.get("/profile", requiresAuth(), (req, res) => {
   res.send(JSON.stringify(req.oidc.user));
 });
+*/
 
 // Connect to DB (mongodb)
 mongoose.connect(process.env.DB_CONNECTION, () => {
