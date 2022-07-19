@@ -1,11 +1,11 @@
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 // Auth0
 const { auth } = require("express-openid-connect");
 // Cors package so that we can fetch data from frontend site
 const cors = require("cors");
+require("dotenv/config");
 
 const config = {
   authRequired: false,
@@ -16,28 +16,29 @@ const config = {
   issuerBaseURL: process.env.ISSUER_BASEURL,
 };
 
-// Middlewares
+const app = express();
+
 app.use(cors());
-// auth router attaches /login, /logout, and /callback routes to the baseURL
+app.use(bodyParser.json());
+app.get("/authLogout", (req, res) => {
+  res.send("Logged Out!");
+});
+
 app.use(auth(config));
 
-// Import dotenv-config
-require("dotenv/config");
-
-app.use(bodyParser.json());
-
-// Import Routes
 const usersRoute = require("./routes/users");
 const sessionsRoute = require("./routes/sessions");
-
-// Middlewares
 app.use("/users", usersRoute);
 app.use("/sessions", sessionsRoute);
 
-// Routes
 // req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
+  console.log(req.oidc.isAuthenticated());
   res.send(req.oidc.isAuthenticated() ? "Logged in" : "Logged out");
+});
+
+app.get("/profile", requiresAuth(), (req, res) => {
+  res.send(JSON.stringify(req.oidc.user));
 });
 
 // Connect to DB (mongodb)
